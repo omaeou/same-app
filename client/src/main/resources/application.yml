@@ -1,0 +1,42 @@
+spring:
+  r2dbc:
+    url: r2dbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+    pool:
+      initial-size: ${DB_INITIAL_POOL_SIZE}
+      max-size: ${DB_MAX_POOL_SIZE}
+  flyway:
+    enabled: true
+    table: _flyway_schema_history
+    url: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+    user: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+  data:
+    r2dbc:
+      repositories:
+        enabled: true
+      base-package: "kz.sameapp"
+  jackson:
+    default-property-inclusion: non_null
+  main:
+    allow-bean-definition-overriding: true
+  messages:
+    basename: language/localization
+  codec:
+    max-in-memory-size: 5120000
+  reactive-feign:
+    base-package: "kz.sameapp"
+
+management:
+  endpoint.health.probes.enabled: true
+  endpoint.loggers.enabled: true
+  endpoint.info.enabled: true
+  endpoints.web.exposure.include: "info, health, loggers"
+
+logging:
+  level:
+    org.example: DEBUG
+    org.springframework.data.r2dbc: WARN
+    org.springframework.web.server.session.DefaultWevSessionManager: INFO
+    org.springframework.web.reactive.result.method.annotation.RequestBodyMethodResolver: INFO
